@@ -30,7 +30,10 @@
 </div>
 <div id="toast"></div>
 <footer>
-	© 12019 <a href="https://en.wikipedia.org/wiki/Holocene_calendar">HE</a> | Website designed and coded by <a href="https://github.com/cubetastic33">cubetastic</a>
+	<div>
+		© 12019 <a href="https://en.wikipedia.org/wiki/Holocene_calendar">HE</a> | Website designed and coded by <a href="https://github.com/cubetastic33">cubetastic</a>
+	</div>
+	<iframe src="https://ghbtns.com/github-btn.html?user=cubetastic33&repo=spse&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
 </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"

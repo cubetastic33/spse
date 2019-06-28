@@ -1,5 +1,5 @@
 /target
 **/*.rs.bk
 /.idea
-/static/styles/*.scss
+/static/styles/*.css
 /static/styles/*.map
