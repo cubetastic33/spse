@@ -1,0 +1,374 @@
+{% extends 'layout' %}
+
+{% block title %}SPSE | Register{% endblock %}
+
+{% block head %}
+<meta name="description" content="Register now to submit your project for the Suguna PIP School Expo">
+<link rel="stylesheet" href="styles/register.css">
+{% endblock %}
+
+{% import 'macros' as macros %}
+
+{% block body %}
+<div id="categoryDescriptions" class="dialog">
+	<div class="dialogContent">
+		{{ macros::divisions() }}
+	</div>
+</div>
+<div class="overlay"></div>
+<div class="register">
+	<h1>Register</h1>
+	<form>
+		<section id="stepOne">
+			<p>
+				Once you've registered, you can add other members if you want a team
+			</p>
+			<br>
+			<div class="formInput">
+				<i class="material-icons">account_circle</i>
+				<input type="text" id="name" autocomplete="off">
+				<label for="name">Name</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">mail</i>
+				<input type="email" id="email" autocomplete="off">
+				<label for="email">Email</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">phone</i>
+				<input type="number" id="phone" autocomplete="off">
+				<label for="phone">Phone Number (optional)</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">lock</i>
+				<input type="password" id="password" autocomplete="off">
+				<label for="password">Password</label>
+				<div class="helper-text"></div>
+			</div>
+			<br>
+			<div class="buttons">
+				<button type="button" class="unelevatedButton">Next</button>
+			</div>
+			<p>Already registered? Sign in <a href="/signin">here</a>.</p>
+			<br>
+		</section>
+		<section id="stepTwo">
+			<p>
+				Once you've registered, you can add other members if you want a team
+			</p>
+			<br>
+			<div class="formInput">
+				<i class="material-icons">school</i>
+				<select id="class">
+					<option value="IX" selected>IX</option>
+					<option value="X">X</option>
+					<option value="XI">XI</option>
+					<option value="XII">XII</option>
+				</select>
+				<label for="class">Class</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<input type="text" id="section" autocomplete="off">
+				<label for="section">Section</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">group</i>
+				<select id="division">
+					<option value="arts">Arts</option>
+					<option value="business">Business</option>
+					<option value="mathematics">Mathematics</option>
+					<option value="languages">Languages</option>
+					<option value="socialstudies">Social Studies</option>
+					<option value="science" selected>Science</option>
+				</select>
+			</div>
+			<br><br>
+			<div class="buttons">
+				<button type="button" class="textButton">Back</button>
+				<button type="button" class="unelevatedButton">Next</button>
+			</div>
+			<p>Already registered? Sign in <a href="/signin">here</a>.</p>
+			<br>
+		</section>
+		<section id="stepThree">
+			<p>
+				Once you've registered, you can add other members if you want a team
+			</p>
+			<p>
+				Don't know which category to choose?
+				<button type="button" id="categoriesButton">Click here</button>
+				<br><br>
+			</p>
+			<div class="formInput languagesField">
+				<i class="material-icons">table_chart</i>
+				<select id="languagesCategory">
+					<option value="Tamil">Tamil</option>
+					<option value="English">English</option>
+					<option value="Hindi">Hindi</option>
+					<option value="French">French</option>
+				</select>
+				<label for="languagesCategory">Category</label>
+				<br><br>
+			</div>
+			<div class="formInput socialstudiesField">
+				<i class="material-icons">table_chart</i>
+				<select id="socialstudiesCategory">
+					<option value="History">History</option>
+					<option value="Geography">Geography</option>
+					<option value="Democratic Politics">Democratic Politics</option>
+					<option value="Economics">Economics</option>
+				</select>
+				<label for="socialstudiesCategory">Category</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<i class="material-icons">table_chart</i>
+				<select id="scienceCategory">
+					<option value="Biological Sciences">Biological Sciences</option>
+					<option value="Chemistry">Chemistry</option>
+					<option value="Computer Science">Computer Science</option>
+					<option value="Earth and Environmental Sciences">Earth and Environmental Sciences</option>
+					<option value="Engineering Mechanics">Engineering Mechanics</option>
+					<option value="Medicine and Health Sciences">Medicine and Health Sciences</option>
+					<option value="Physics and Astronomy">Physics and Astronomy</option>
+				</select>
+				<label for="scienceCategory">Category</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="subcategoriesOne">
+					<option value="Behavourial Sciences">Behavourial Sciences</option>
+					<option value="Animal Sciences and Ethology">Animal Sciences and Ethology</option>
+					<option value="Cellular Biology and Microbiology">Cellular Biology and Microbiology</option>
+					<option value="Plant Sciences and Mycology">Plant Sciences and Mycology</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="subcategoriesOne">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="subcategoriesTwo">
+					<option value="Inorganic Chemistry">Inorganic Chemistry</option>
+					<option value="Materials Science">Materials Science</option>
+					<option value="Organic Chemistry and Biochemistry">Organic Chemistry and Biochemistry</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="subcategoriesTwo">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="subcategoriesThree">
+					<option value="Artificial Intelligence">Artificial Intelligence</option>
+					<option value="Embedded Systems">Embedded Systems</option>
+					<option value="System and Application Software">System and Application Software</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="subcategoriesThree">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="subcategoriesFour">
+					<option value="Climate and Atmospheric Sciences">Climate and Atmospheric Sciences</option>
+					<option value="Pollution and Environmental Degradation">Pollution and Environmental Degradation</option>
+					<option value="Water Science">Water Science</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="subcategoriesFour">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="subcategoriesFive">
+					<option value="Aerospace and Aeronautical Engineering">Aerospace and Aeronautical Engineering</option>
+					<option value="Civil Engineering">Civil Engineering</option>
+					<option value="Mechanical Engineering">Mechanical Engineering</option>
+					<option value="Robotics">Robotics</option>
+					<option value="Transportation">Transportation</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="subcategoriesFive">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="subcategoriesSix">
+					<option value="Biomedical Engineering">Biomedical Engineering</option>
+					<option value="Public Health and Sanitation">Public Health and Sanitation</option>
+					<option value="Pathology">Pathology</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="subcategoriesSix">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="subcategoriesSeven">
+					<option value="Atomic, Molecular, and Optical Physics">Atomic, Molecular, and Optical Physics</option>
+					<option value="Astronomy and Cosmology">Astronomy and Cosmology</option>
+					<option value="Mechanics">Mechanics</option>
+					<option value="Nuclear and Particle Physics">Nuclear and Particle Physics</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="subcategoriesSeven">Subcategory</label>
+				<br><br>
+			</div>
+			<p class="scienceField">
+				The next two fields are optional. If you think your project falls into two subcategories, you can enter
+				your project under one more subcategory.
+				<br><br>
+			</p>
+			<div class="formInput scienceField">
+				<i class="material-icons">table_chart</i>
+				<select id="secondaryCategory">
+					<option value="None" selected>None</option>
+					<option value="Biological Sciences">Biological Sciences</option>
+					<option value="Chemistry">Chemistry</option>
+					<option value="Computer Science">Computer Science</option>
+					<option value="Earth and Environmental Sciences">Earth and Environmental Sciences</option>
+					<option value="Engineering Mechanics">Engineering Mechanics</option>
+					<option value="Medicine and Health Sciences">Medicine and Health Sciences</option>
+					<option value="Physics and Astronomy">Physics and Astronomy</option>
+				</select>
+				<label for="secondaryCategory">Secondary Category</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="secondarySubcategoriesZero">
+					<option value="None" selected>None</option>
+				</select>
+				<label for="secondarySubcategoriesZero">Secondary Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="secondarySubcategoriesOne">
+					<option value="Behavourial Sciences">Behavourial Sciences</option>
+					<option value="Animal Sciences and Ethology">Animal Sciences and Ethology</option>
+					<option value="Cellular Biology and Microbiology">Cellular Biology and Microbiology</option>
+					<option value="Plant Sciences and Mycology">Plant Sciences and Mycology</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="secondarySubcategoriesOne">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="secondarySubcategoriesTwo">
+					<option value="Inorganic Chemistry">Inorganic Chemistry</option>
+					<option value="Materials Science">Materials Science</option>
+					<option value="Organic Chemistry and Biochemistry">Organic Chemistry and Biochemistry</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="secondarySubcategoriesTwo">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="secondarySubcategoriesThree">
+					<option value="Artificial Intelligence">Artificial Intelligence</option>
+					<option value="Embedded Systems">Embedded Systems</option>
+					<option value="System and Application Software">System and Application Software</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="secondarySubcategoriesThree">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="secondarySubcategoriesFour">
+					<option value="Climate and Atmospheric Sciences">Climate and Atmospheric Sciences</option>
+					<option value="Pollution and Environmental Degradation">Pollution and Environmental Degradation</option>
+					<option value="Water Science">Water Science</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="secondarySubcategoriesFour">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="secondarySubcategoriesFive">
+					<option value="Aerospace and Aeronautical Engineering">Aerospace and Aeronautical Engineering</option>
+					<option value="Civil Engineering">Civil Engineering</option>
+					<option value="Mechanical Engineering">Mechanical Engineering</option>
+					<option value="Robotics">Robotics</option>
+					<option value="Transportation">Transportation</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="secondarySubcategoriesFive">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="secondarySubcategoriesSix">
+					<option value="Biomedical Engineering">Biomedical Engineering</option>
+					<option value="Public Health and Sanitation">Public Health and Sanitation</option>
+					<option value="Pathology">Pathology</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="secondarySubcategoriesSix">Subcategory</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<select id="secondarySubcategoriesSeven">
+					<option value="Atomic, Molecular, and Optical Physics">Atomic, Molecular, and Optical Physics</option>
+					<option value="Astronomy and Cosmology">Astronomy and Cosmology</option>
+					<option value="Mechanics">Mechanics</option>
+					<option value="Nuclear and Particle Physics">Nuclear and Particle Physics</option>
+					<option value="Other">Other</option>
+				</select>
+				<label for="secondarySubcategoriesSeven">Subcategory</label>
+			</div>
+			<br>
+			<div class="formInput">
+				<input type="text" id="projectTitle" name="projectTitle" autocomplete="off">
+				<label for="projectTitle">Project Title</label>
+				<div class="helper-text"></div>
+			</div>
+			<br>
+			<div class="formInput">
+				<textarea id="projectAbstract" rows="10" autocomplete="off"></textarea>
+				<label for="projectAbstract">Project Abstract</label>
+				<br>
+				<div class="helper-text"></div>
+			</div>
+			<br>
+			<div class="formInput scienceField">
+				<input type="checkbox" id="guidelinesConsent" autocomplete="off">
+				<label for="guidelinesConsent">I have read the <a href="/guidelines">guidelines</a>.</label>
+				<br><br>
+			</div>
+			<div class="formInput scienceField">
+				<input type="checkbox" id="rulesConsent" autocomplete="off">
+				<label for="rulesConsent">I have read and agree to follow the <a href="/rules">rules</a>.</label>
+				<br><br><br>
+			</div>
+			<div class="buttons">
+				<button type="button" class="textButton">Back</button>
+				<button type="button" id="submit" class="unelevatedButton">Submit</button>
+			</div>
+			<p>Already registered? Sign in <a href="/signin">here</a>.</p>
+			<br>
+		</section>
+	</form>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+	if ({{ id }} != -1) {
+		$.ajax({
+			type: 'POST',
+			url: '/signout',
+			success: (result) => {
+				console.log(result);
+				if (result === 'success') {
+					$('#profile').html('<i class="material-icons">account_circle</i>');
+					showToast('Signed out');
+				}
+			}
+		});
+	}
+</script>
+<script src="/scripts/register.js"></script>
+{% endblock %}

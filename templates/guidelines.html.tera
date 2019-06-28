@@ -1,0 +1,60 @@
+{% extends 'layout' %}
+
+{% block title %}SPSE | Guidelines{% endblock %}
+
+{% block head %}
+<meta name="description" content="The guidelines of the Suguna PIP School Science Expo">
+<style>
+	main {
+		padding: 1rem 10vw !important;
+	}
+
+	main h1 {
+		font-size: 2.5rem !important;
+	}
+
+	p, li {
+		font-size: 1.25rem;
+		text-align: justify;
+	}
+
+	.footnote {
+		font-size: 1rem;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<h1>Guidelines</h1>
+<hr>
+<p>
+	<b>Note:</b> These guidelines are intended for participants of the science section of the expo.
+</p>
+<p class="footnote">
+	*Research projects are also heavily encouraged. If you plan on doing a pure research project, come up with a
+	well-defined research question that is testable using the methods of science.
+</p>
+<ul>
+	<li>
+		Look around you. Find a problem that you or others face - something that excites you! Come up with a solution to
+		that problem harnessing the methods and tools of science.*
+	</li>
+	<li>
+		Your solution doesn’t need to be a ‘working model’ or even a complete proposal. It needs to be a new idea to
+		solve a real problem. However, your solution needs to be backed by science. Don’t make wild hypotheses or
+		unsubstantiated claims.
+	</li>
+	<li>
+		Don’t merely write an essay on a science topic or repeat an experiment from your textbook. We’re looking for
+		creativity and innovation.
+	</li>
+	<li>
+		Your project shouldn’t be an off-the-shelf product/solution. It shouldn’t be purchased, it should be made and
+		conceived by <b>you</b>.
+	</li>
+	<li>
+		Present your project at the fair. Feel free to present it however you’d like to! You can bring poster boards,
+		charts, booklets, a model, or anything else that can help you with your presentation.
+	</li>
+</ul>
+{% endblock %}

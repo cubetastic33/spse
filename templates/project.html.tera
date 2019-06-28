@@ -1,0 +1,227 @@
+{% extends 'layout' %}
+
+{% block title %}SPSE | Project{% endblock %}
+
+{% block head %}
+<meta name="description" content="Info about the project you submitted for the Suguna PIP School Expo">
+<link rel="stylesheet" href="/styles/project.css">
+{% endblock %}
+
+{% block body %}
+<div id="editProfile" class="dialog">
+	<div class="dialogContent">
+		<h2>Edit Profile</h2>
+		<p>
+			<b>Profile Picture:</b> Your profile picture is a <a href="https://www.gravatar.com/">gravatar</a>. You can
+			change it by changing ur gravatar picture.
+		</p>
+		<form>
+			<div class="formInput">
+				<i class="material-icons">account_circle</i>
+				<input type="text" id="name" autocomplete="off">
+				<label for="name">Name</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">phone</i>
+				<input type="number" id="phone" autocomplete="off">
+				<label for="phone">Phone Number (optional)</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">lock</i>
+				<input type="password" id="password" autocomplete="off">
+				<label for="password">New Password (optional)</label>
+				<div class="helper-text"></div>
+			</div>
+			<br>
+			<div class="buttons">
+				<button type="button" class="textButton">Cancel</button>
+				<button type="submit">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div id="editProject" class="dialog">
+	<div class="dialogContent">
+		<h2>Edit Project</h2>
+		<form>
+			<div class="formInput">
+				<input type="text" id="projectTitle" name="projectTitle" autocomplete="off">
+				<label for="projectTitle">Project Title</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<textarea id="projectAbstract" rows="10" autocomplete="off"></textarea>
+				<label for="projectAbstract">Project Abstract</label>
+				<br>
+				<div class="helper-text"></div>
+			</div>
+			<br>
+			<div class="buttons">
+				<button type="button" class="textButton">Cancel</button>
+				<button type="submit">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% if is_leader == true %}
+<div id="addTeamMember" class="dialog">
+	<div class="dialogContent">
+		<h2>Add a team member</h2>
+		<form>
+			<div class="formInput">
+				<i class="material-icons">account_circle</i>
+				<input type="text" id="newMemberName" name="projectTitle" autocomplete="off">
+				<label for="newMemberName">Name</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">mail</i>
+				<input type="email" id="newMemberEmail" autocomplete="off">
+				<label for="newMemberEmail">Email</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">lock</i>
+				<input type="password" id="newMemberPassword" autocomplete="off">
+				<label for="newMemberPassword">Password</label>
+				<div class="helper-text"></div>
+			</div>
+			<br><br>
+			<div class="formInput">
+				<i class="material-icons">school</i>
+				<select id="newMemberClass">
+					<option value="IX" selected>IX</option>
+					<option value="X">X</option>
+					<option value="XI">XI</option>
+					<option value="XII">XII</option>
+				</select>
+				<label for="newMemberClass">Class</label>
+			</div>
+			<br>
+			<div class="formInput">
+				<input type="text" id="newMemberSection" autocomplete="off">
+				<label for="newMemberSection">Section</label>
+				<div class="helper-text"></div>
+			</div>
+			<br>
+			<div class="buttons">
+				<button type="button" class="textButton">Cancel</button>
+				<button type="submit">Add</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+<div class="overlay"></div>
+<div id="profileHeader">
+	<img src="{{ profile_pic | safe }}" id="profilePicture" alt="profile picture">
+	<div class="infoColumn">
+		<div><div>Name:</div> <div class="name">{{ name }}</div></div>
+		<div><div>Email:</div> <div class="email">{{ email }}</div></div>
+		<div><div>Phone:</div> <div class="phone">{% if phone | length == 0 %}Not provided{% else %}{{ phone }}{% endif %}</div></div>
+		<div><div>Class:</div> <div class="class">{{ grade }} {{ section }}</div></div>
+		<section>
+			<button id="edit">Edit</button>
+			<button id="signoutButton">Sign Out</button>
+		</section>
+	</div>
+</div>
+<div id="projectBody">
+	<h1>{{ project_title }} <span class="projectId">{{ project_id }}</span><i id="editProjectButton" class="material-icons">edit</i></h1>
+	<hr>
+	<p>{{ project_abstract }}</p>
+	<h3>Registered under {{ division }} division</h3>
+	{% if division == "science" or division == "socialstudies" or division == "languages" %}
+	<ul>
+		<li>
+			<b>Category:</b> {{ category }}
+		</li>
+		{% if division == "science" %}
+		<li>
+			<b>Subcategory:</b> {{ subcategory }}
+		</li>
+		<li>
+			<b>Secondary Category:</b> {{ secondary_category }}
+		</li>
+		<li>
+			<b>Secondary Subcategory:</b> {{ secondary_subcategory }}
+		</li>
+		{% endif %}
+	</ul>
+	{% endif %}
+</div>
+<div id="teamMembers">
+	<h1>Team Members</h1>
+	<ul>
+		{% for member in team_members %}
+		<li class="{{ member.0 }}">
+			<div>{{ member.1 }}</div>
+			{% if is_leader == true %}
+			<div id="makeLeader">Make Leader</div>
+			{% elif member.2 == true %}
+			<div id="leader">Leader</div>
+			{% endif %}
+		</li>
+		{% endfor %}
+		{% if is_leader == true %}
+		<li id="addMember"><i class="material-icons">add</i>Add Member</li>
+		{% endif %}
+	</ul>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+	var user_details = {
+		name: '{{ name }}',
+		phone: '{{ phone }}'
+	};
+
+	var project_details = {
+		division: '{{ division }}',
+		project_title: '{{ project_title }}',
+		project_abstract: `{{ project_abstract | trim }}`
+	};
+
+	{% if is_leader == true %}
+	$('#addMember').click(() => {
+		$('.overlay').show();
+		$('#addTeamMember .formInput input, #addTeamMember .formInput select').each(function() {
+			if ($(this).val() !== '') {
+				$(`#${this.id} + label`).animate({
+					'fontSize': '0.8rem',
+					'top': '-0.7rem',
+					'padding': '0.25rem'
+				}, 80);
+			}
+		});
+		$('#addTeamMember').show('slow');
+	});
+
+	$('#makeLeader').click(function() {
+		console.log($(this).parent().attr('class'));
+		showToast('Please wait...', 10000);
+		$.ajax({
+			type: 'POST',
+			url: '/make_leader',
+			data: {
+				id: $(this).parent().attr('class')
+			},
+			success: result => {
+				console.log(result);
+				showToast(result, 10000);
+				if (result === 'success') window.location.reload();
+			}
+		});
+	});
+	{% endif %}
+</script>
+<script src="/scripts/project.js"></script>
+{% endblock %}

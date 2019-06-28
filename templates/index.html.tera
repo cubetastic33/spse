@@ -1,0 +1,71 @@
+{% extends 'layout' %}
+
+{% block head %}
+<meta name="description" content="The official website of the Suguna PIP School Expo!">
+<style>
+	main {
+		padding: 0 !important;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<section id="welcome">
+	<div id="welcomeContent">
+		<p>
+			Welcome to the official website of the Suguna PIP School Expo!
+		</p>
+		<br>
+		<div id="actions">
+			{% if id == -1 %}
+			<a href="/register" class="button">Register / Sign in</a>
+			<br>
+			<a href="#info" id="infoButton" class="button">Info</a>
+			<br>
+			<a href="/categories" class="button">categories</a>
+			{% else %}
+			<a href="/project" class="button">View my project</a>
+			<br>
+			<a href="#info" id="infoButton" class="button">Info</a>
+			{% endif %}
+		</div>
+		<br>
+		<div id="documentation">
+			<a href="/guidelines" class="button">guidelines</a>
+			<a href="/rules" class="button">rules</a>
+		</div>
+		<br>
+		<div id="registrations">{% if users > 50 %}{{ users }} people have registered so far{% endif %}</div>
+	</div>
+</section>
+<section id="info">
+	<h2>Information</h2>
+	<hr>
+	<p>
+		To participate in the school expo, you first need to register in this website. You can register your project
+		under one of five different divisions; for information about the divisions and categories, please click
+		<a href="/categories">here</a>. To register as an individual, you can just go to the
+		<a href="/register">registration page</a>. To register as a team, first a member of the team must register like
+		an individual. Then, in the <a href="/project">project</a> page, they must click on `+ Add Member`, and enter
+		the details of the new members. These members can now sign in using the credentials the first team member
+		provided for them, and the team leader can easily be changed by the team leader.
+		<br><br>
+		Students participating under the science division should read the rules and guidelines, and the organizers are
+		hosting prizes too! For information about any of the divisions, ask your teachers.
+		<br><br>
+		The expo is on the 16th and 17th of August, and registration closes on 15th July.
+		<br><br>
+		If you have any queries or suggestions, feel free to contact us at
+		<a href="mailto: conficturaexpo@gmail.com">conficturaexpo@gmail.com</a>.
+	</p>
+</section>
+{% endblock %}
+
+{% block javascript %}
+<script>
+	$('#infoButton').click(e => {
+		e.preventDefault();
+		$('html, body').animate({ scrollTop: $('#info').offset().top }, 1000);
+	});
+</script>
+{% endblock %}

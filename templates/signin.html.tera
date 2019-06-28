@@ -1,0 +1,54 @@
+{% extends 'layout' %}
+
+{% block title %}SPSE | Sign In{% endblock %}
+
+{% block head %}
+<meta name="description" content="Sign in to the official website of the Suguna PIP School Expo">
+<link rel="stylesheet" href="styles/register.css">
+{% endblock %}
+
+{% block body %}
+<div class="signIn">
+	<h1>Sign In</h1>
+	<form>
+		<div class="formInput">
+			<i class="material-icons">mail</i>
+			<input type="email" id="email" autocomplete="off">
+			<label for="email">Email</label>
+			<div class="helper-text"></div>
+		</div>
+		<br><br>
+		<div class="formInput">
+			<i class="material-icons">lock</i>
+			<input type="password" id="password" autocomplete="off">
+			<label for="password">Password</label>
+			<div class="helper-text"></div>
+		</div>
+		<br>
+		<div class="buttons">
+			<button type="submit">Sign in</button>
+		</div>
+		<p>Not registered yet? Sign up <a href="/register">here</a>.</p>
+		<br>
+	</form>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+	if ({{ id }} != -1) {
+		$.ajax({
+			type: 'POST',
+			url: '/signout',
+			success: (result) => {
+				console.log(result);
+				if (result === 'success') {
+					$('#profile').html('<i class="material-icons">account_circle</i>');
+					showToast('Signed out');
+				}
+			}
+		});
+	}
+</script>
+<script src="/scripts/signin.js"></script>
+{% endblock %}

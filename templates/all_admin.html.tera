@@ -1,0 +1,76 @@
+{% extends 'layout' %}
+
+{% block title %}SPSE Admin | All{% endblock %}
+
+{% block head %}
+<meta name="description" content="The main admin page of the Suguna PIP School Expo">
+<link rel="stylesheet" href="/styles/admin.css">
+{% endblock %}
+
+{% block body %}
+<h1>SPSE Admin Page</h1>
+<button id="signoutButton">Sign out</button>
+<hr>
+<ul>
+	<li><b>Total registrations in expo:</b> {{ total_registrations }}</li>
+</ul>
+<ul>
+	<li>{{ scope_registrations_ix }} submission{% if scope_registrations_ix != 1 %}s{% endif %} in IX<sup>th</sup> class</li>
+	<li>{{ scope_registrations_x }} submission{% if scope_registrations_x != 1 %}s{% endif %} in X<sup>th</sup> class</li>
+	<li>{{ scope_registrations_xi }} submission{% if scope_registrations_xi != 1 %}s{% endif %} in XI<sup>th</sup> class</li>
+	<li>{{ scope_registrations_xii }} submission{% if scope_registrations_xii != 1 %}s{% endif %} in XII<sup>th</sup> class</li>
+</ul>
+{% if scope_submissions | length > 0 %}
+<hr>
+<h2>Submissions</h2>
+<ul id="submissions">
+	{% for submission in scope_submissions %}
+	<li id="{{ submission.project_id }}">
+		<a href="/admin/project.pdf?project_id={{ submission.project_id }}" class="material-icons exception">print</a>
+		<div class="cover">{{ submission.project_title }} under {{ submission.division }}</div>
+		<div class="detailedView">
+			<h3>{{ submission.project_title }} <span class="projectId">{{ submission.project_id }}</span></h3>
+			<h6>Done by
+				{% for member in submission.team_members %}
+				{{ member.1 }} from {{ member.3 }}
+				{% endfor %}</h6>
+			<hr>
+			<p>{{ submission.project_abstract }}</p>
+			{% if submission.division == "science" or submission.division == "socialstudies" or submission.division == "languages" %}
+			<ul>
+				<li>
+					<b>Category:</b> {{ submission.category }}
+				</li>
+				{% if submission.division == "science" %}
+				<li>
+					<b>Subcategory:</b> {{ submission.subcategory }}
+				</li>
+				<li>
+					<b>Secondary Category:</b> {{ submission.secondary_category }}
+				</li>
+				<li>
+					<b>Secondary Subcategory:</b> {{ submission.secondary_subcategory }}
+				</li>
+				{% endif %}
+			</ul>
+			{% endif %}
+			<br>
+			<h6>Team:</h6>
+			<ul>
+				{% for member in submission.team_members %}
+				<li>{{ member.1 }} ({{ member.2 }}) from {{ member.3 }}{% if member.0 == submission.team_members.0.0 %} - Leader{% endif %}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</li>
+	{% endfor %}
+</ul>
+<div id="download">
+	<a href="/admin/spse_admin_data.csv" class="button">Download this data</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block javascript %}
+<script src="/scripts/admin.js"></script>
+{% endblock %}

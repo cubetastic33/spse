@@ -1,0 +1,50 @@
+{% extends 'layout' %}
+
+{% block title %}SPSE | Rules{% endblock %}
+
+{% block head %}
+<meta name="description" content="The rules of the Suguna PIP School Science Expo">
+<style>
+	main {
+		padding: 1rem 10vw !important;
+	}
+
+	main h1 {
+		font-size: 2.5rem !important;
+	}
+
+	p, li {
+		font-size: 1.25rem;
+		text-align: justify;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<h1>Rules</h1>
+<hr>
+<p>
+	<b>Note:</b> These rules are intended for participants of the science section of the expo.
+</p>
+<ul>
+	<li>
+		Make sure your solution/discovery is backed by experiment and real science. Do not make wild hypotheses or
+		unsubstantiated claims. For example, perpetual motion machines are not allowed.
+	</li>
+	<li>
+		Simple posters, thermocol or wood models explaining established science/technology principles are heavily
+		discouraged. Examples include a model of a hydroelectric power station, or a model of a wind farm or wind
+		turbine.
+	</li>
+	<li>
+		Projects must be original. Projects that are plagiarized are disallowed.
+	</li>
+	<li>
+		Studies that cause harm or lead to the death of vertebrate animals (including mice) are strictly forbidden.
+	</li>
+	<li>
+		These rules are not comprehensive and use of loopholes or other means to violate the spirit of these rules is
+		subject to enforcement.
+	</li>
+</ul>
+{% endblock %}

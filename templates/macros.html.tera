@@ -1,0 +1,106 @@
+{% macro divisions() %}
+<h1>Categories and Divisions</h1>
+<hr>
+<h2>Divisions</h2>
+<ul>
+	<li><b>Arts</b></li>
+	<li><b>Business</b></li>
+	<li><b>Mathematics</b></li>
+	<li>
+		<b>Languages - Categories</b>
+		<ul>
+			<li>Tamil</li>
+			<li>English</li>
+			<li>Hindi</li>
+			<li>French</li>
+		</ul>
+	</li>
+	<li>
+		<b>Social Studies - Categories</b>
+		<ul>
+			<li>History</li>
+			<li>Geography</li>
+			<li>Democratic Politics</li>
+			<li>Economics</li>
+		</ul>
+	</li>
+	<li>
+		<b>Science</b>
+		<ul>
+			<li>
+				Biological Sciences
+				<ul>
+					<li><b>Behavioural Sciences:</b> The scientific study of human behaviour. This category includes neuroscience, which is the scientific study of the brain and nervous system, and also includes psychology.</li>
+					<li><b>Animal Sciences and Ethology:</b> The study of animals and their behaviour.</li>
+					<li><b>Cellular Biology and Microbiology:</b>  The study of cell structure and function. This category includes microbiology, which is the study of microorganisms, those being unicellular, multicellular, or acellular.</li>
+					<li><b>Plant Sciences and Mycology:</b> The study of organisms in the plant kingdom. This subcategory also includes Mycology, the study of Fungi.</li>
+					<li><b>Other:</b> Projects that do not fit in any of the above subcategories.</li>
+				</ul>
+			</li>
+			<li>
+				Chemistry
+				<ul>
+					<li><b>Inorganic Chemistry:</b> The study of the properties and reactions of inorganic and organometallic compounds.</li>
+					<li><b>Materials Science:</b> The study of the properties of matter and its applications to various areas of science and engineering.</li>
+					<li><b>Organic Chemistry and Biochemistry:</b> The study of carbon-containing compounds, including hydrocarbons and their derivatives. This subcategory also includes biochemistry, which is the study of the chemical basis of processes occurring in living organisms.</li>
+					<li><b>Other:</b> Projects that do not fit in any of the above subcategories.</li>
+				</ul>
+			</li>
+			<li>
+				Computer Science
+				<ul>
+					<li><b>Artificial Intelligence:</b> The study and application of intelligent algorithms, including those that learn from data (Machine Learning).</li>
+					<li><b>Embedded Systems:</b> Projects involving electrical systems for purposes of enhancing communications, control and/or sensing.</li>
+					<li><b>System and Application Software:</b> The study or development of software, spanning everything from web applications to operating systems. You can even make video games!</li>
+					<li><b>Other:</b> Projects that do not fit in any of the above subcategories.</li>
+				</ul>
+			</li>
+			<li>
+				Earth and Environmental Sciences
+				<ul>
+					<li><b>Climate and Atmospheric Sciences:</b> The study of our changing climate, weather, and our atmosphere.</li>
+					<li><b>Pollution and Environmental Degradation:</b> The study of or creation of solutions for habitat destruction, environmental degradation, pollution, etc.</li>
+					<li><b>Water Science:</b> Projects involving electrical systems for purposes of enhancing communications, control and/or sensing.</li>
+					<li><b>Other:</b> Projects that do not fit in any of the above subcategories.</li>
+				</ul>
+			</li>
+			<li>
+				Engineering Mechanics
+				<ul>
+					<li><b>Aerospace and Aeronautical Engineering:</b> Projects involving the design of aircraft and space vehicles and/or the direction of the technical phases of their manufacture and operation.</li>
+					<li><b>Civil Engineering:</b> Studies that involve the planning, designing, construction, and maintenance of structures and public works, such as bridges or dams, roads, water supply, sewer, flood control, and traffic.</li>
+					<li><b>Mechanical Engineering:</b> Studies/solutions that involve the generation and application of heat and mechanical power and the design, production, and use of machines and tools.</li>
+					<li><b>Robotics:</b> Projects that deal with the design, construction, operation, and use of robots, as well as computer systems for their control, sensory feedback, and information processing.</li>
+					<li><b>Transportation:</b> Projects on transportation solutions.</li>
+					<li><b>Other:</b> Projects that do not fit in any of the above subcategories.</li>
+				</ul>
+			</li>
+			<li>
+				Medicine and Health Sciences
+				<ul>
+					<li><b>Biomedical Engineering:</b> Projects that involve the application of engineering principles and design concepts to medicine and biology for healthcare purposes including diagnosis, monitoring and therapy. This includes the application of computer science and hardware.</li>
+					<li><b>Public Health and Sanitation:</b> Projects that aim to improve sanitation and public health.</li>
+					<li><b>Pathology:</b> The study of the causes and effects of disease or injury. The word pathology also refers to the study of disease in general, incorporating a wide range of bioscience research fields and medical practices.</li>
+					<li><b>Other:</b> Projects that do not fit in any of the above subcategories.</li>
+				</ul>
+			</li>
+			<li>
+				Physics and Astronomy
+				<ul>
+					<li><b>Atomic, Molecular, and Optical Physics:</b> The study of atoms, simple molecules, electrons, light, and their interactions.</li>
+					<li><b>Astronomy and Cosmology:</b> The natural science that studies celestial objects and phenomena. It applies mathematics, physics, and chemistry in an effort to explain the origin of those objects and phenomena and their evolution.</li>
+					<li><b>Mechanics:</b> Classical physics and mechanics, including the macroscopic study of forces, vibrations and flows; on solid, liquid and gaseous materials. Projects studying aerodynamics or hydrodynamics also belong in this subcategory.</li>
+					<li><b>Nuclear and Particle Physics:</b> The study of the physical properties of the atomic nucleus and of fundamental particles and the forces of their interaction.</li>
+					<li><b>Other:</b> Projects that do not fit in any of the above subcategories.</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+<h2>Acknowledgements, References, and Sources</h2>
+<p>
+	Some of the categories/subcategories and subcategory descriptions were obtained from/inspired by <a href="https://student.societyforscience.org/isef-categories-and-subcategories">those from the International Science and Engineering Fair</a>.
+	<br>
+	Descriptions of some subcategories were obtained from <a href="https://wikipedia.org/">Wikipedia</a>.
+</p>
+{% endmacro divisions %}

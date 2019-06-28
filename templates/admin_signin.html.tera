@@ -1,0 +1,45 @@
+{% extends 'layout' %}
+
+{% block title %}SPSE Admin | Sign In{% endblock %}
+
+{% block head %}
+<meta name="description" content="Sign in to the admin page of the Suguna PIP School Expo">
+<link rel="stylesheet" href="styles/register.css">
+{% endblock %}
+
+{% block body %}
+<div class="signIn">
+	<h1>Sign in to Admin page</h1>
+	<form>
+		<div class="formInput">
+			<i class="material-icons">school</i>
+			<select id="scope">
+				<option value="arts">Arts</option>
+				<option value="business">Business</option>
+				<option value="mathematics">Mathematics</option>
+				<option value="languages">Languages</option>
+				<option value="socialstudies">Social Studies</option>
+				<option value="science" selected>Science</option>
+				<option value="all">All</option>
+			</select>
+			<label for="scope">Scope</label>
+			<div class="helper-text"></div>
+		</div>
+		<br><br>
+		<div class="formInput">
+			<i class="material-icons">lock</i>
+			<input type="password" id="password" autocomplete="off">
+			<label for="password">Password</label>
+			<div class="helper-text"></div>
+		</div>
+		<br>
+		<div class="buttons">
+			<button type="submit">Sign in</button>
+		</div>
+	</form>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="/scripts/admin.js"></script>
+{% endblock %}
