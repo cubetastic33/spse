@@ -234,7 +234,6 @@ fn admin_route(conn: State<Mutex<Connection>>, mut cookies: Cookies) -> Template
         }
     }
     Template::render("admin_signin", UserDetails::default())
-    //String::from("Page under maintanence. Please check back later.")
 }
 
 #[get("/admin/project.pdf?<project_id>")]

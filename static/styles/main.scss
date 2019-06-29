@@ -43,6 +43,10 @@ $secondary-fg: #ffffff;
 */
 
 @media screen and (max-width: 620px) {
+	#info p {
+		font-size: 1rem !important;
+	}
+
 	.dialog {
 		width: 95%;
 	}

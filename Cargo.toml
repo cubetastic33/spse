@@ -9,8 +9,8 @@ rand = "0.6.5"
 rand_hc = "0.1.0"
 bcrypt = "0.4.0"
 md5 = "0.6.1"
-rocket = "0.4.1"
-rocket_contrib = { version = "0.4.1", features = ["tera_templates"] }
+rocket = "0.4.2"
+rocket_contrib = { version = "0.4.2", features = ["tera_templates"] }
 serde = "1.0"
 serde_derive = "1.0"
 postgres = "0.15"
