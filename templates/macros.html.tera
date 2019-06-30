@@ -3,27 +3,6 @@
 <hr>
 <h2>Divisions</h2>
 <ul>
-	<li><b>Arts</b></li>
-	<li><b>Business</b></li>
-	<li><b>Mathematics</b></li>
-	<li>
-		<b>Languages - Categories</b>
-		<ul>
-			<li>Tamil</li>
-			<li>English</li>
-			<li>Hindi</li>
-			<li>French</li>
-		</ul>
-	</li>
-	<li>
-		<b>Social Studies - Categories</b>
-		<ul>
-			<li>History</li>
-			<li>Geography</li>
-			<li>Democratic Politics</li>
-			<li>Economics</li>
-		</ul>
-	</li>
 	<li>
 		<b>Science</b>
 		<ul>
@@ -96,6 +75,27 @@
 			</li>
 		</ul>
 	</li>
+	<li>
+		<b>Social Studies - Categories</b>
+		<ul>
+			<li>History</li>
+			<li>Geography</li>
+			<li>Democratic Politics</li>
+			<li>Economics</li>
+		</ul>
+	</li>
+	<li>
+		<b>Languages - Categories</b>
+		<ul>
+			<li>Tamil</li>
+			<li>English</li>
+			<li>Hindi</li>
+			<li>French</li>
+		</ul>
+	</li>
+	<li><b>Mathematics</b></li>
+	<li><b>Business</b></li>
+	<li><b>Arts</b></li>
 </ul>
 <h2>Acknowledgements, References, and Sources</h2>
 <p>

@@ -40,10 +40,6 @@
 <p>
 	<b>Note:</b> These guidelines are intended for participants of the science section of the expo.
 </p>
-<p class="footnote">
-	*Research projects are also heavily encouraged. If you plan on doing a pure research project, come up with a
-	well-defined research question that is testable using the methods of science.
-</p>
 <ul>
 	<li>
 		Look around you. Find a problem that you or others face - something that excites you! Come up with a solution to
@@ -67,4 +63,8 @@
 		charts, booklets, a model, or anything else that can help you with your presentation.
 	</li>
 </ul>
+<p class="footnote">
+	*Research projects are also heavily encouraged. If you plan on doing a pure research project, come up with a
+	well-defined research question that is testable using the methods of science.
+</p>
 {% endblock %}
