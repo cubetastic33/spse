@@ -22,7 +22,7 @@ mod db_operations;
 pub struct UserDetails {
     id: i32,
     name: String,
-    email: String,
+    email: Option<String>,
     phone: Option<String>,
     profile_pic: String,
     password: String,
@@ -74,6 +74,11 @@ pub struct AdminPageDetails {
 }
 
 #[derive(FromForm)]
+pub struct Name {
+    name: String,
+}
+
+#[derive(FromForm)]
 pub struct Email {
     email: String,
 }
@@ -81,7 +86,7 @@ pub struct Email {
 #[derive(FromForm)]
 pub struct RegistrationDetails {
     name: String,
-    email: String,
+    email: Option<String>,
     phone: Option<String>,
     password: String,
     grade: String,
@@ -98,7 +103,7 @@ pub struct RegistrationDetails {
 #[derive(FromForm)]
 pub struct NewTeamMemberDetails {
     name: String,
-    email: String,
+    email: Option<String>,
     password: String,
     grade: String,
     section: String,
@@ -106,7 +111,7 @@ pub struct NewTeamMemberDetails {
 
 #[derive(FromForm)]
 pub struct SignInDetails {
-    email: String,
+    name: String,
     password: String,
 }
 
@@ -117,7 +122,7 @@ pub struct UserId {
 
 #[derive(FromForm)]
 pub struct UpdateProfileDetails {
-    name: String,
+    email: Option<String>,
     phone: Option<String>,
     new_password: Option<String>,
 }
@@ -139,7 +144,7 @@ impl Default for UserDetails {
         UserDetails {
             id: -1,
             name: String::from("x"),
-            email: String::from("x"),
+            email: None,
             phone: None,
             profile_pic: String::from("x"),
             password: String::from("x"),
@@ -381,6 +386,7 @@ fn rocket() -> rocket::Rocket {
                 admin_route,
                 admin_project_pdf_download_route,
                 admin_download_route,
+                name_available_route,
                 email_available_route,
                 registration_route,
                 signin_user_route,

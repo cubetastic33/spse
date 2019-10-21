@@ -28,7 +28,7 @@
 	{% for submission in scope_submissions %}
 	<li id="{{ submission.project_id }}">
 		<a href="/admin/project.pdf?project_id={{ submission.project_id }}" class="material-icons exception">print</a>
-		<div class="cover">{{ submission.project_title }} under {{ submission.division }}</div>
+		<div class="cover">{{ submission.project_title }}</div>
 		<div class="detailedView">
 			<h3>{{ submission.project_title }} <span class="projectId">{{ submission.project_id }}</span></h3>
 			<h6>Done by
@@ -59,7 +59,16 @@
 			<h6>Team:</h6>
 			<ul>
 				{% for member in submission.team_members %}
-				<li>{{ member.1 }} ({{ member.2 }}) from {{ member.3 }}{% if member.0 == submission.team_members.0.0 %} - Leader{% endif %}</li>
+				<li>
+					{{ member.1 }}
+					{% if member.2 | length > 0 %}
+						({{ member.2 }})
+					{% endif %}
+					from {{ member.3 }}
+					{% if member.0 == submission.team_members.0.0 %}
+						- Leader
+					{% endif %}
+				</li>
 				{% endfor %}
 			</ul>
 		</div>

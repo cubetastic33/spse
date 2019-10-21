@@ -9,7 +9,15 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="/styles/main.css">
 	{% block head %}{% endblock %}
-	<!-- Add script tags for Global site tag (gtag.js) - Google Analytics -->
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135219619-2"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-135219619-2');
+	</script>
 </head>
 <body>
 <div id="stuffAboveFooter">
@@ -31,7 +39,7 @@
 <div id="toast"></div>
 <footer>
 	<div>
-		© 12019 <a href="https://en.wikipedia.org/wiki/Holocene_calendar">HE</a> | Website designed and coded by <a href="https://github.com/cubetastic33">cubetastic</a>
+		© 12019 <a href="https://en.wikipedia.org/wiki/Holocene_calendar">HE</a> | Website designed and coded by <a href="https://github.com/cubetastic33">Aravindan</a>
 	</div>
 	<iframe src="https://ghbtns.com/github-btn.html?user=cubetastic33&repo=spse&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
 </footer>

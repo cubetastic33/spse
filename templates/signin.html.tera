@@ -12,9 +12,9 @@
 	<h1>Sign In</h1>
 	<form>
 		<div class="formInput">
-			<i class="material-icons">mail</i>
-			<input type="email" id="email" autocomplete="off">
-			<label for="email">Email</label>
+			<i class="material-icons">account_circle</i>
+			<input type="text" id="name" autocomplete="off">
+			<label for="name">Name</label>
 			<div class="helper-text"></div>
 		</div>
 		<br><br>

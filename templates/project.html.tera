@@ -18,8 +18,8 @@
 		<form>
 			<div class="formInput">
 				<i class="material-icons">account_circle</i>
-				<input type="text" id="name" autocomplete="off">
-				<label for="name">Name</label>
+				<input type="email" id="email" autocomplete="off">
+				<label for="email">email</label>
 				<div class="helper-text"></div>
 			</div>
 			<br><br>
@@ -124,7 +124,7 @@
 	<img src="{{ profile_pic | safe }}" id="profilePicture" alt="profile picture">
 	<div class="infoColumn">
 		<div><div>Name:</div> <div class="name">{{ name }}</div></div>
-		<div><div>Email:</div> <div class="email">{{ email }}</div></div>
+		<div><div>Email:</div> <div class="email">{% if email | length == 0 %}Not provided{% else %}{{ email }}{% endif %}</div></div>
 		<div><div>Phone:</div> <div class="phone">{% if phone | length == 0 %}Not provided{% else %}{{ phone }}{% endif %}</div></div>
 		<div><div>Class:</div> <div class="class">{{ grade }} {{ section }}</div></div>
 		<section>
@@ -164,7 +164,7 @@
 		<li class="{{ member.0 }}">
 			<div>{{ member.1 }}</div>
 			{% if is_leader == true %}
-			<div id="makeLeader">Make Leader</div>
+			<div class="makeLeader">Make Leader</div>
 			{% elif member.2 == true %}
 			<div id="leader">Leader</div>
 			{% endif %}
@@ -180,7 +180,7 @@
 {% block javascript %}
 <script>
 	var user_details = {
-		name: '{{ name }}',
+		email: '{{ email }}',
 		phone: '{{ phone }}'
 	};
 
@@ -205,7 +205,7 @@
 		$('#addTeamMember').show('slow');
 	});
 
-	$('#makeLeader').click(function() {
+	$('.makeLeader').click(function() {
 		console.log($(this).parent().attr('class'));
 		showToast('Please wait...', 10000);
 		$.ajax({

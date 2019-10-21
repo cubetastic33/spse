@@ -34,7 +34,7 @@
 			<div class="formInput">
 				<i class="material-icons">mail</i>
 				<input type="email" id="email" autocomplete="off">
-				<label for="email">Email</label>
+				<label for="email">Email (optional)</label>
 				<div class="helper-text"></div>
 			</div>
 			<br><br>
@@ -81,17 +81,6 @@
 				<div class="helper-text"></div>
 			</div>
 			<br><br>
-			<div class="formInput">
-				<i class="material-icons">group</i>
-				<select id="division">
-					<option value="arts">Arts</option>
-					<option value="business">Business</option>
-					<option value="mathematics">Mathematics</option>
-					<option value="languages">Languages</option>
-					<option value="socialstudies">Social Studies</option>
-					<option value="science" selected>Science</option>
-				</select>
-			</div>
 			<br><br>
 			<div class="buttons">
 				<button type="button" class="textButton">Back</button>
@@ -325,7 +314,7 @@
 				<label for="projectTitle">Project Title</label>
 				<div class="helper-text"></div>
 			</div>
-			<br>
+			<br><br>
 			<div class="formInput">
 				<textarea id="projectAbstract" rows="10" autocomplete="off"></textarea>
 				<label for="projectAbstract">Project Abstract</label>

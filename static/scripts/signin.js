@@ -30,9 +30,9 @@ $('.formInput input').each(function() {
 
 $('form').submit(e => {
 	e.preventDefault();
-	if ($('#email').val().length === 0 || $('#email').is(':invalid')) {
-		$('#email').parent().attr('class', 'formInput error');
-		$('#email ~ .helper-text').text('Enter a valid email address');
+	if ($('#name').val().length === 0) {
+		$('#name').parent().attr('class', 'formInput error');
+		$('#name ~ .helper-text').text('Enter the name you registered with');
 		showToast('Errors in form');
 		return;
 	}
@@ -49,7 +49,7 @@ $('form').submit(e => {
 		type: 'POST',
 		url: '/signin_user',
 		data: {
-			email: $('#email').val(),
+			name: $('#name').val(),
 			password: $('#password').val()
 		},
 		success: result => {

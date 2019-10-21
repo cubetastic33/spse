@@ -47,7 +47,7 @@ $('form').submit(e => {
 		success: result => {
 			console.log(result);
 			showToast(result, 10000);
-			if (result === 'success') window.location.reload();
+			if (result === 'success') window.location.href = '/admin';
 		}
 	});
 });

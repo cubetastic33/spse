@@ -27,8 +27,8 @@ $('.formInput input:not([type=checkbox]), .formInput select, .formInput textarea
 			$('#password').parent().attr('class', 'formInput error');
 			$('#password ~ .helper-text').text('This has to be at least 8 characters');
 		} else if (this.id === 'projectAbstract' && $(this).val().split(' ').length > 120) {
-			$(this).parent().attr('class', 'formInput error');
-			$('#projectAbstract ~ .helper-text').text('The abstract must be lesser than 120 words long');
+			$(this).parent().attr('class', 'formInput warning');
+			$('#projectAbstract ~ .helper-text').text("WARNING: Please make sure your abstract isn't too long. It should preferably be under 120 words.");
 		} else {
 			$(this).parent().attr('class', 'formInput');
 			$(`#${this.id} ~ .helper-text`).empty();
@@ -82,9 +82,9 @@ $('#stepOne button').click(() => {
 		showToast('Errors in form');
 		return;
 	}
-	if ($('#email').val().length === 0 || $('#email').is(':invalid')) {
+	if ($('#email').is(':invalid')) {
 		$('#email').parent().attr('class', 'formInput error');
-		$('#email ~ .helper-text').text('Enter a valid email address');
+		$('#email ~ .helper-text').text('Enter a valid email address or none at all');
 		showToast('Errors in form');
 		return;
 	}
@@ -103,18 +103,38 @@ $('#stepOne button').click(() => {
 
 	$.ajax({
 		type: 'POST',
-		url: '/email_available',
+		url: '/name_available',
 		data: {
-			email: $('#email').val()
+			name: $('#name').val()
 		},
 		success: result => {
 			console.log(result);
 			if (result === 'true') {
-				$('#stepOne').hide();
-				$('#stepTwo').show();
+				if ($('#email').val().length > 0) {
+					$.ajax({
+						type: 'POST',
+						url: '/email_available',
+						data: {
+							email: $('#email').val()
+						},
+						success: email_result => {
+							console.log(email_result);
+							if (email_result === 'true') {
+								$('#stepOne').hide();
+								$('#stepTwo').show();
+							} else {
+								$('#email').parent().attr('class', 'formInput error');
+								$('#email ~ .helper-text').text('This email address is already used');
+							}
+						}
+					});
+				} else {
+					$('#stepOne').hide();
+					$('#stepTwo').show();
+				}
 			} else {
-				$('#email').parent().attr('class', 'formInput error');
-				$('#email ~ .helper-text').text('This email address is already used');
+				$('#name').parent().attr('class', 'formInput error');
+				$('#name ~ .helper-text').text('This name is already registered');
 			}
 		}
 	});
@@ -169,17 +189,15 @@ $('#submit').click(() => {
 		showToast('Errors in form');
 		return;
 	}
-	if ($('#division').val() === 'science' && $('#projectAbstract').val().split(' ').length < 50) {
+	if ($('#division').val() === 'science' && $('#projectAbstract').val().split(' ').length < 20) {
 		$('#projectAbstract').parent().attr('class', 'formInput error');
-		$('#projectAbstract ~ .helper-text').text('The project abstract must be at least 50 words long');
+		$('#projectAbstract ~ .helper-text').text('The project abstract must be at least 20 words long');
 		showToast('Errors in form');
 		return;
 	}
 	if ($('#projectAbstract').val().split(' ').length > 120) {
-		$('#projectAbstract').parent().attr('class', 'formInput error');
-		$('#projectAbstract ~ .helper-text').text('The abstract must be lesser than 120 words long');
-		showToast('Errors in form');
-		return;
+		$('#projectAbstract').parent().attr('class', 'formInput warning');
+		$('#projectAbstract ~ .helper-text').text("WARNING: Please make sure your abstract isn't too long. It should preferably be under 120 words.");
 	}
 	if ($('#division').val() === 'science' && !$('#guidelinesConsent').prop('checked')) {
 		showToast("You can't participate if you haven't read the guidelines");
@@ -201,10 +219,10 @@ $('#submit').click(() => {
 		showToast('Enter your name');
 		return;
 	}
-	if ($('#email').val().length === 0 || $('#email').is(':invalid')) {
+	if ($('#email').is(':invalid')) {
 		$('#email').parent().attr('class', 'formInput error');
-		$('#email ~ .helper-text').text('Enter a valid email address');
-		showToast('Enter a valid email address');
+		$('#email ~ .helper-text').text('Enter a valid email address or none at all');
+		showToast('Enter a valid email address or none at all');
 		return;
 	}
 	if ($('#phone').is(':invalid')) {
@@ -251,7 +269,7 @@ $('#submit').click(() => {
 		url: '/register',
 		data: {
 			name: $('#name').val(),
-			email: $('#email').val(),
+			email: $('#email').val().length === 0 ? undefined : $('#email').val(),
 			phone: $('#phone').val().length === 0 ? undefined : $('#phone').val(),
 			password: $('#password').val(),
 			grade: $('#class').val(),

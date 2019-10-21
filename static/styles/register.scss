@@ -9,6 +9,7 @@ $secondary: #280680;
 $secondary-dark: #180470;
 $secondary-fg: #ffffff;
 $error: #ef5350;
+$warning: #fff59d;
 
 /*
 	Media Queries
@@ -216,6 +217,38 @@ form {
 			color: $error;
 		}
 	}
+
+	.formInput.warning input:not([type="checkbox"]), .formInput.warning textarea {
+                border-color: $warning;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+
+                + label {
+                        color: $warning;
+                }
+
+                ~ .warning-icon {
+                        display: initial;
+                        color: $warning;
+                        position: absolute;
+                        top: 1rem;
+                        right: 3rem;
+                }
+
+                ~ .helper-text {
+                        display: initial;
+                        color: $warning;
+                }
+        }
+
+        .formInput.warning input:not([type="checkbox"]):focus, .formInput.warning textarea:focus {
+                border-color: $warning;
+                caret-color: $warning;
+
+                + label {
+                        color: $warning;
+                }
+        }
 
 	.buttons {
 		display: flex;

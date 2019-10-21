@@ -58,7 +58,16 @@
 			<h6>Team:</h6>
 			<ul>
 				{% for member in submission.team_members %}
-				<li>{{ member.1 }} ({{ member.2 }}) from {{ member.3 }}{% if member.0 == submission.team_members.0.0 %} - Leader{% endif %}</li>
+				<li>
+					{{ member.1 }}
+					{% if member.2 | length > 0 %}
+						({{ member.2 }})
+					{% endif %}
+					from {{ member.3 }}
+					{% if member.0 == submission.team_members.0.0 %}
+						- Leader
+					{% endif %}
+				</li>
 				{% endfor %}
 			</ul>
 		</div>

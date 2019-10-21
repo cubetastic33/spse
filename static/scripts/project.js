@@ -27,7 +27,7 @@ $('.formInput input, .formInput select, .formInput textarea').each(function() {
 			$('#password').parent().attr('class', 'formInput error');
 			$('#password ~ .helper-text').text('This has to be at least 8 characters');
 		} else if (this.id === 'projectAbstract' && $(this).val().split(' ').length > 120) {
-			$(this).parent().attr('class', 'formInput error');
+			$(this).parent().attr('class', 'formInput warning');
 			$('#projectAbstract ~ .helper-text').text('The abstract must be lesser than 120 words long');
 		} else {
 			$(this).parent().attr('class', 'formInput');
@@ -40,7 +40,7 @@ $('.formInput input, .formInput select, .formInput textarea').each(function() {
 
 $('#edit').click(() => {
 	$('.overlay').show();
-	$('#name').val(user_details.name);
+	$('#email').val(user_details.email);
 	$('#phone').val(user_details.phone);
 	$('#editProfile .formInput input').each(function() {
 		if ($(this).val() !== '') {
@@ -80,9 +80,9 @@ $('.overlay, #editProfile .textButton, #editProject .textButton, #addTeamMember 
 
 $('#editProfile form').submit(e => {
 	e.preventDefault();
-	if ($('#name').val().length === 0) {
-		$('#name').parent().attr('class', 'formInput error');
-		$('#name ~ .helper-text').text('Enter your name');
+	if ($('#email').is(':invalid')) {
+		$('#email').parent().attr('class', 'formInput error');
+		$('#email ~ .helper-text').text('Enter a valid email address or none at all');
 		showToast('Errors in form');
 		return;
 	}
@@ -103,7 +103,7 @@ $('#editProfile form').submit(e => {
 		type: 'POST',
 		url: '/update_profile',
 		data: {
-			name: $('#name').val(),
+			email: $('#email').val().length === 0 ? undefined : $('#email').val(),
 			phone: $('#phone').val().length === 0 ? undefined : $('#phone').val(),
 			new_password: $('#password').val()
 		},
@@ -123,17 +123,15 @@ $('#editProject form').submit(e => {
 		showToast('Errors in form');
 		return;
 	}
-	if (project_details.division === 'science' && $('#projectAbstract').val().split(' ').length < 50) {
+	if (project_details.division === 'science' && $('#projectAbstract').val().split(' ').length < 20) {
 		$('#projectAbstract').parent().attr('class', 'formInput error');
-		$('#projectAbstract ~ .helper-text').text('The project abstract must be at least 50 words long');
+		$('#projectAbstract ~ .helper-text').text('The project abstract must be at least 20 words long');
 		showToast('Errors in form');
 		return;
 	}
 	if ($('#projectAbstract').val().split(' ').length > 120) {
-		$('#projectAbstract').parent().attr('class', 'formInput error');
+		$('#projectAbstract').parent().attr('class', 'formInput warning');
 		$('#projectAbstract ~ .helper-text').text('The abstract must be lesser than 120 words long');
-		showToast('Errors in form');
-		return;
 	}
 	showToast('Please wait...', 10000);
 	$.ajax({
@@ -159,10 +157,10 @@ $('#addTeamMember form').submit(e => {
 		showToast('Enter the name');
 		return;
 	}
-	if ($('#newMemberEmail').val().length === 0 || $('#newMemberEmail').is(':invalid')) {
+	if ($('#newMemberEmail').is(':invalid')) {
 		$('#newMemberEmail').parent().attr('class', 'formInput error');
-		$('#newMemberEmail ~ .helper-text').text('Enter a valid email address');
-		showToast('Enter a valid email address');
+		$('#newMemberEmail ~ .helper-text').text('Enter a valid email address or none at all');
+		showToast('Enter a valid email address or none at all');
 		return;
 	}
 	if ($('#newMemberPassword').val().length < 8) {
@@ -183,7 +181,7 @@ $('#addTeamMember form').submit(e => {
 		url: '/add_team_member',
 		data: {
 			name: $('#newMemberName').val(),
-			email: $('#newMemberEmail').val(),
+			email: $('#newMemberEmail').val().length === 0 ? undefined : $('#newMemberEmail').val(),
 			password: $('#newMemberPassword').val(),
 			grade: $('#newMemberClass').val(),
 			section: $('#newMemberSection').val()

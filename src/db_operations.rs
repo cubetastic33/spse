@@ -21,8 +21,24 @@ pub fn get_number_of_users(conn: &Connection) -> usize {
     conn.query("SELECT * FROM users", &[]).unwrap().len()
 }
 
+// Function to check if the name is available
+pub fn name_available(conn: &Connection, name: &str) -> bool {
+    if name.len() == 0 {
+        // The name has length 0
+        return false;
+    }
+    // Return whether there are no rows with the given name
+    conn.query(
+        "SELECT * FROM users WHERE name = $1",
+        &[&name],
+    )
+    .unwrap()
+    .is_empty()
+}
+
 // Function to check if the email address is available
 pub fn email_available(conn: &Connection, email: &str) -> bool {
+    println!("Email: {}", email);
     if email.len() == 0 {
         // The email address has length 0
         return false;
@@ -37,10 +53,10 @@ pub fn email_available(conn: &Connection, email: &str) -> bool {
 }
 
 /*
-CREATE TABLE users (
+CREATE TABLE users_table (
 0  id serial PRIMARY KEY,
-1  name VARCHAR (100) NOT NULL,
-2  email VARCHAR (100) UNIQUE NOT NULL,
+1  name VARCHAR (100) UNIQUE NOT NULL,
+2  email VARCHAR (100) UNIQUE,
 3  phone VARCHAR (20),
 4  password VARCHAR (62) NOT NULL,
 5  salt BIGINT NOT NULL,
@@ -68,9 +84,6 @@ pub fn register(
     if registration_details.name.len() == 0 {
         return String::from("Error: No name");
     }
-    if registration_details.email.len() == 0 {
-        return String::from("Error: No email address");
-    }
     if registration_details.password.len() < 8 {
         return String::from("Error: Password too short");
     }
@@ -93,15 +106,16 @@ pub fn register(
         return String::from("Error: No project title");
     }
     if &registration_details.division == "science"
-        && registration_details.project_abstract.split(" ").count() < 50
-    {
-        return String::from("Error: Project abstract is lesser than 50 words");
+        && registration_details.project_abstract.split(" ").count() < 20 {
+        return String::from("Error: Project abstract is lesser than 20 words");
     }
-    if registration_details.project_abstract.split(" ").count() > 120 {
-        return String::from("Error: Project abstract is more than 120 words");
+    if name_available(&conn, &registration_details.name) == false {
+        return String::from("Name already exists");
     }
-    if email_available(&conn, &registration_details.email) == false {
-        return String::from("Email already used");
+    if let Some(email) = &registration_details.email {
+        if !email_available(&conn, &email) {
+            return String::from("Email already used");
+        }
     }
 
     // Generate salt using a CSPRNG
@@ -139,24 +153,25 @@ pub fn register(
         "socialstudies".to_string(),
         "languages".to_string(),
     ]
-    .contains(&registration_details.division)
-    {
+    .contains(&registration_details.division) {
         conn.query(
-            "SELECT id FROM users WHERE category = $1",
+            "SELECT DISTINCT project_id FROM users WHERE category = $1 ORDER BY project_id",
             &[&registration_details.category.as_ref().unwrap()],
         )
     } else {
         conn.query(
-            "SELECT id FROM users WHERE division = $1",
+            "SELECT DISTINCT project_id FROM users WHERE division = $1 ORDER BY project_id",
             &[&registration_details.division],
         )
     }
     .unwrap();
-    let part_two = if entries.is_empty() {
-        1
+    let part_two: u32 = if entries.is_empty() {
+        0
     } else {
-        entries.len() + 1
-    };
+        let project_id: String = entries.get(entries.len() - 1).get(0);
+        let start = project_id.find(|c:char| c.is_digit(10)).unwrap();
+        project_id[start..].parse().unwrap()
+    } + 1;
     // Create a new entry in the table to register the user
     if let Err(e) = conn.query(
         &format!(
@@ -184,7 +199,7 @@ pub fn register(
         println!("Error: {}", e.to_string());
         return String::from(e.to_string());
     };
-    cookies.add_private(Cookie::new("email", (&registration_details.email).clone()));
+    cookies.add_private(Cookie::new("name", (&registration_details.name).clone()));
     cookies.add_private(Cookie::new("hash", String::from(password_hash.trim())));
     String::from("success")
 }
@@ -194,16 +209,16 @@ pub fn signin_user(
     user_details: Form<SignInDetails>,
     mut cookies: Cookies,
 ) -> String {
-    if user_details.email.len() > 0 && user_details.password.len() > 0 {
-        // Proceed if the email address and password have been provided
+    if user_details.name.len() > 0 && user_details.password.len() > 0 {
+        // Proceed if the name and password have been provided
         let rows = conn
             .query(
-                "SELECT password, salt FROM users WHERE email = $1",
-                &[&user_details.email],
+                "SELECT password, salt FROM users WHERE name = $1",
+                &[&user_details.name],
             )
             .unwrap();
         if rows.is_empty() == false {
-            // The email address exists
+            // The name exists
             let password_hash: String = rows.get(0).get(0);
             let salt: i64 = rows.get(0).get(1);
 
@@ -214,12 +229,12 @@ pub fn signin_user(
             .unwrap()
             {
                 // The credentials are correct, create the cookies to sign the user in
-                cookies.add_private(Cookie::new("email", (&user_details.email).clone()));
+                cookies.add_private(Cookie::new("name", (&user_details.name).clone()));
                 cookies.add_private(Cookie::new("hash", String::from(password_hash.trim())));
                 return String::from("success");
             }
         } else {
-            // Hash something even if the email address doesn't exist, so that response times are similar
+            // Hash something even if the name doesn't exist, so that response times are similar
             hash("foo", DEFAULT_COST).unwrap();
         }
     }
@@ -228,12 +243,12 @@ pub fn signin_user(
 
 // Function to get user's details if user is signed in
 pub fn get_user_details(conn: &Connection, cookies: &mut Cookies) -> UserDetails {
-    if let Some(email) = cookies.get_private("email") {
-        // If the email cookie exists
+    if let Some(name) = cookies.get_private("name") {
+        // If the name cookie exists
         if let Some(password_hash) = cookies.get_private("hash") {
             // If the password hash cookie exists as well
             let rows = conn
-                .query("SELECT * FROM users WHERE email = $1", &[&email.value()])
+                .query("SELECT * FROM users WHERE name = $1", &[&name.value()])
                 .unwrap();
             if rows.is_empty() {
                 return UserDetails::default();
@@ -272,7 +287,7 @@ pub fn get_user_details(conn: &Connection, cookies: &mut Cookies) -> UserDetails
                 project_id,
                 profile_pic: format!(
                     "https://www.gravatar.com/avatar/{:x}?d=robohash&s=256",
-                    md5::compute(&email.value().to_lowercase().as_bytes())
+                    md5::compute(&rows.get(0).get::<_, Option<String>>(2).unwrap_or(String::new()).to_lowercase().as_bytes())
                 ),
                 team_members,
             };
@@ -296,9 +311,6 @@ pub fn add_team_member(
     if new_team_member_details.name.len() == 0 {
         return String::from("Error: No name");
     }
-    if new_team_member_details.email.len() == 0 {
-        return String::from("Error: No email address");
-    }
     if new_team_member_details.password.len() < 8 {
         return String::from("Error: Password too short");
     }
@@ -308,15 +320,20 @@ pub fn add_team_member(
     if new_team_member_details.section.len() == 0 {
         return String::from("Error: No section");
     }
-    if email_available(&conn, &new_team_member_details.email) == false {
-        return String::from("Email already used");
+    if name_available(&conn, &new_team_member_details.name) == false {
+        return String::from("Name already exists");
     }
-    if let Some(email) = cookies.get_private("email") {
-        // If the email cookie exists
+    if let Some(email) = &new_team_member_details.email {
+        if !email_available(&conn, &email) {
+            return String::from("Email already used");
+        }
+    }
+    if let Some(name) = cookies.get_private("name") {
+        // If the name cookie exists
         if let Some(password_hash) = cookies.get_private("hash") {
             // If the password hash cookie exists as well
             let rows = conn
-                .query("SELECT password, division, category, subcategory, secondary_category, secondary_subcategory, project_title, project_abstract, project_id FROM users WHERE email = $1", &[&email.value()])
+                .query("SELECT password, division, category, subcategory, secondary_category, secondary_subcategory, project_title, project_abstract, project_id FROM users WHERE name = $1", &[&name.value()])
                 .unwrap();
             if rows.is_empty() {
                 return String::from("Error: Not signed in");
@@ -366,14 +383,14 @@ pub fn add_team_member(
 
 // Function to create a user as part of a team
 pub fn make_leader(conn: &Connection, user_id: Form<UserId>, mut cookies: Cookies) -> String {
-    if let Some(email) = cookies.get_private("email") {
-        // If the email cookie exists
+    if let Some(name) = cookies.get_private("name") {
+        // If the name cookie exists
         if let Some(password_hash) = cookies.get_private("hash") {
             // If the password hash cookie exists as well
             let rows = conn
                 .query(
-                    "SELECT password, is_leader, id FROM users WHERE email = $1",
-                    &[&email.value()],
+                    "SELECT password, is_leader, id FROM users WHERE name = $1",
+                    &[&name.value()],
                 )
                 .unwrap();
             if rows.is_empty() {
@@ -414,14 +431,14 @@ pub fn update_profile(
     update_profile_details: Form<UpdateProfileDetails>,
     mut cookies: Cookies,
 ) -> String {
-    if let Some(email) = cookies.get_private("email") {
-        // If the email cookie exists
+    if let Some(name) = cookies.get_private("name") {
+        // If the name cookie exists
         if let Some(password_hash) = cookies.get_private("hash") {
             // If the password hash cookie exists as well
             let user = conn
                 .query(
-                    "SELECT password, salt FROM users WHERE email = $1",
-                    &[&email.value()],
+                    "SELECT password, salt FROM users WHERE name = $1",
+                    &[&name.value()],
                 )
                 .unwrap();
             let password: String = user.get(0).get(0);
@@ -434,28 +451,28 @@ pub fn update_profile(
                 cookies.remove_private(Cookie::named("hash"));
                 cookies.add_private(Cookie::new("hash", new_hash.clone()));
                 if let Err(e) = conn.query(
-                    "UPDATE users SET name = $1,
+                    "UPDATE users SET email = $1,
                         phone = $2,
                         password = $3
-                    WHERE email = $4",
+                    WHERE name = $4",
                     &[
-                        &update_profile_details.name,
+                        &update_profile_details.email,
                         &update_profile_details.phone,
                         &new_hash,
-                        &email.value(),
+                        &name.value(),
                     ],
                 ) {
                     println!("Error: {}", e.to_string());
                     return String::from(e.to_string());
                 }
             } else if let Err(e) = conn.query(
-                "UPDATE users SET name = $1,
+                "UPDATE users SET email = $1,
                         phone = $2
-                    WHERE email = $3",
+                    WHERE name = $3",
                 &[
-                    &update_profile_details.name,
+                    &update_profile_details.email,
                     &update_profile_details.phone,
-                    &email.value(),
+                    &name.value(),
                 ],
             ) {
                 println!("Error: {}", e.to_string());
@@ -473,25 +490,26 @@ pub fn update_project(
     update_project_details: Form<UpdateProjectDetails>,
     mut cookies: Cookies,
 ) -> String {
-    if let Some(email) = cookies.get_private("email") {
-        // If the email cookie exists
+    if let Some(name) = cookies.get_private("name") {
+        // If the name cookie exists
         if let Some(password_hash) = cookies.get_private("hash") {
             // If the password hash cookie exists as well
             let user = conn
-                .query("SELECT * FROM users WHERE email = $1", &[&email.value()])
+                .query("SELECT * FROM users WHERE name = $1", &[&name.value()])
                 .unwrap();
             let password: String = user.get(0).get(4);
+            let project_id: String = user.get(0).get(16);
             if &password_hash.value() != &password {
                 return String::from("Error: Not signed in");
             }
             if let Err(e) = conn.query(
                 "UPDATE users SET project_title = $1,
                         project_abstract = $2
-                    WHERE email = $3",
+                    WHERE project_id = $3",
                 &[
                     &update_project_details.project_title,
                     &update_project_details.project_abstract,
-                    &email.value(),
+                    &project_id,
                 ],
             ) {
                 println!("Error: {}", e.to_string());
@@ -505,8 +523,8 @@ pub fn update_project(
 
 // Function to sign the user out
 pub fn signout_user(cookies: &mut Cookies) -> String {
-    // Delete the email cookie
-    cookies.remove_private(Cookie::named("email"));
+    // Delete the name cookie
+    cookies.remove_private(Cookie::named("name"));
     // Delete the hash cookie
     cookies.remove_private(Cookie::named("hash"));
     String::from("success")
@@ -580,7 +598,7 @@ pub fn get_admin_info(conn: &Connection, scope: String) -> AdminPageDetails {
                 team_members: vec![(
                     row.get(0),
                     row.get(1),
-                    row.get(2),
+                    row.get::<_, Option<String>>(2).unwrap_or(String::new()),
                     row.get::<_, String>(3) + " " + &row.get::<_, String>(4),
                 )],
                 division: row.get(5),
@@ -599,7 +617,7 @@ pub fn get_admin_info(conn: &Connection, scope: String) -> AdminPageDetails {
                     submission.team_members.push((
                         row.get(0),
                         row.get(1),
-                        row.get(2),
+                        row.get::<_, Option<String>>(2).unwrap_or(String::new()),
                         row.get::<_, String>(3) + " " + &row.get::<_, String>(4),
                     ));
                 }
@@ -647,7 +665,7 @@ fn overflow_text(text: String, length_break: usize) -> Vec<String> {
 
 // Function to generate PDF file with the data of the requested project ID
 pub fn generate_pdf(conn: &Connection, project_id: String) -> Result<Content<Vec<u8>>, Redirect> {
-    let mut team_members: Vec<(String, String, String)> = Vec::new();
+    let mut team_members: Vec<(String, String)> = Vec::new();
     let rows = conn
         .query(
             "SELECT * FROM users WHERE project_id = $1 ORDER BY is_leader",
@@ -674,7 +692,6 @@ pub fn generate_pdf(conn: &Connection, project_id: String) -> Result<Content<Vec
     for user in &rows {
         team_members.push((
             user.get(1),
-            user.get(2),
             user.get::<_, String>(6) + " " + &user.get::<_, String>(7),
         ));
     }
@@ -685,8 +702,8 @@ pub fn generate_pdf(conn: &Connection, project_id: String) -> Result<Content<Vec
     let dosis_font = doc
         .add_external_font(File::open("static/fonts/Dosis/Dosis-Medium.ttf").unwrap())
         .unwrap();
-    let ubuntu_mono_font = doc
-        .add_external_font(File::open("static/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf").unwrap())
+    let iosevka_font = doc
+        .add_external_font(File::open("static/fonts/Iosevka/iosevka-regular.ttf").unwrap())
         .unwrap();
     let source_sans_pro_font = doc
         .add_external_font(
@@ -733,13 +750,13 @@ pub fn generate_pdf(conn: &Connection, project_id: String) -> Result<Content<Vec
     current_layer.add_line_break();
     current_layer.add_line_break();
 
-    current_layer.set_font(&ubuntu_mono_font, 14);
+    current_layer.set_font(&iosevka_font, 14);
     current_layer.set_line_height(16);
     for (i, line) in overflow_text(project_abstract, 77).iter().enumerate() {
         if i > 0 {
             current_layer.add_line_break();
         }
-        current_layer.write_text(line, &ubuntu_mono_font);
+        current_layer.write_text(line, &iosevka_font);
     }
     current_layer.add_line_break();
     current_layer.add_line_break();
@@ -808,10 +825,8 @@ pub fn generate_pdf(conn: &Connection, project_id: String) -> Result<Content<Vec
         current_layer.add_line_break();
         current_layer.write_text(
             member.0.clone()
-                + " ("
+                + " from "
                 + &member.1
-                + ") from "
-                + &member.2
                 + if i == 0 { "  LEADER" } else { "" },
             &source_sans_pro_font,
         );
@@ -845,7 +860,6 @@ pub fn generate_csv(conn: &Connection, scope: String) -> Result<Content<String>,
         wtr.write_record(&[
             "Name",
             "Class",
-            "Email",
             "Category",
             "Subcategory",
             "Sec. Cat.",
@@ -859,7 +873,6 @@ pub fn generate_csv(conn: &Connection, scope: String) -> Result<Content<String>,
             wtr.write_record(&[
                 row.get::<_, String>(1),
                 row.get::<_, String>(6) + " " + row.get::<_, String>(7).as_ref(),
-                row.get::<_, String>(2),
                 match row.get::<_, String>(10).as_ref() {
                     "Tamil" => "TAM",
                     "English" => "ENG",
@@ -931,7 +944,6 @@ pub fn generate_csv(conn: &Connection, scope: String) -> Result<Content<String>,
             wtr.write_record(&[
                 row.get::<_, String>(1),
                 row.get::<_, String>(6) + " " + row.get::<_, String>(7).as_ref(),
-                row.get::<_, String>(2),
                 match row.get::<_, String>(10).as_ref() {
                     "Tamil" => "TAM",
                     "English" => "ENG",
@@ -975,7 +987,6 @@ pub fn generate_csv(conn: &Connection, scope: String) -> Result<Content<String>,
         wtr.write_record(&[
             row.get::<_, String>(1),
             row.get::<_, String>(6) + " " + row.get::<_, String>(7).as_ref(),
-            row.get::<_, String>(2),
             row.get::<_, String>(14),
             row.get::<_, bool>(8).to_string(),
             row.get::<_, String>(16),
